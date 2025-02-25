@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  oracle:
+    image: gvenzl/oracle-xe:21-slim
+    environment:
+      ORACLE_PASSWORD: ticket09
+    ports:
+      - "1521:1521"
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'select 1 from dual;' | sqlplus -S system/${ORACLE_PASSWORD}@localhost:1521/xe"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+
+  ticket_management:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      oracle:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle:1521/xe
+      SPRING_DATASOURCE_USERNAME: c##TICKET_USER
+      SPRING_DATASOURCE_PASSWORD: ticket09
+      SPRING_APPLICATION_NAME: Ticket_management
