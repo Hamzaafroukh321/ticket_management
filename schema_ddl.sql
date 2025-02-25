@@ -167,5 +167,5 @@ S" ("ID")
   TABLESPACE "USERS"                                                                                                                                                                                    
                                                                                                                                                                                                         
 SQL> 
-SQL> -- (Add more for VIEWS, SYNONYMS, TRIGGERS, etc., as needed)
+SQL> 
 SQL> SPOOL OFF;
